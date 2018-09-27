@@ -9,17 +9,7 @@ import Card from './Card';
 class Index extends React.Component  {
     static async getInitialProps ({ store }) {
         store.dispatch(initialCardsAction())
-        
-        
-
-    }
-    componentDidMount = () => {
-      
-    }
-    
-    Check = () => {
-        this.props.initialCardsAction();
-        console.log(this.props.cardArr, this.props)
+        store.dispatch(AddAction())
     }
     render () {
         if (this.props.cards) {
@@ -39,17 +29,16 @@ class Index extends React.Component  {
                     </div>
                 </div>
             )
-        } else {
-            return (
-                <div>
-                    <button onClick={this.Check}>Check Props</button>
-                </div>
-            )
-        }
-        
+        } 
     }
 
 };
+const mapDisPatchToProps = dispatch => {
+    return {
+        initialCardsAction: bindActionCreators(initialCardsAction, dispatch),
+        AddAction: bindActionCreators(AddAction, dispatch)
+    }
+}
 const mapStateToProps = state => {
     return {
         cards: state.cards,
@@ -58,4 +47,4 @@ const mapStateToProps = state => {
 }
 
 
-export default connect(mapStateToProps, {})(Index)
+export default connect(mapStateToProps, mapDisPatchToProps)(Index)
