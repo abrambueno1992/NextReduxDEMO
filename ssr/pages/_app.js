@@ -6,9 +6,8 @@ import App, {Container} from "next/app";
 import withRedux from "next-redux-wrapper";
 import { composeWithDevTools } from 'redux-devtools-extension';
 import thunkMiddleware from 'redux-thunk';
-import {initialCards}  from '../store'
 import data from '../data/data.json'
-export const reducer = (state = initialState, action) => {
+export const reducer = (state = startState, action) => {
     switch (action.type) {
         case 'INITIALCARDS':
             return {
@@ -43,11 +42,11 @@ class MyApp extends App {
     static async getInitialProps({Component, ctx}) {
 
         // we can dispatch from here too
-         const pageProps = ctx.store.dispatch({type: 'INITIALCARDS', payload:data});
+        //  const pageProps = ctx.store.dispatch({type: 'INITIALCARDS', payload:data});
 
-        // const pageProps = Component.getInitialProps ? await Component.getInitialProps(ctx) : console.log('Success');
+        const pageProps = Component.getInitialProps ? await Component.getInitialProps(ctx) : {};
         // console.log(ctx)
-        // console.log(pageProps)
+        console.log(pageProps)
         return {pageProps};
 
     }

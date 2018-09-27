@@ -1,7 +1,6 @@
 import React from 'react';
 import { bindActionCreators } from 'redux';
-import { initStore, initialCards, addItem } from '../store';
-// import withRedux from 'next-redux-wrapper';
+import data from '../data/data.json'
 import {connect} from "react-redux";
 
 import './index.css';
@@ -9,23 +8,17 @@ import Card from './Card';
 
 class Index extends React.Component  {
     static async getInitialProps ({ store }) {
-        const cards = store.dispatch({type: 'INITIALCARDS', payload: 'cards'});
-        const cardArray = cards.payload
-        // return {cards}
-        // return {cards}
-        // if (this.props.cards) {
-            console.log(cardArray)
-            return {cards}
-        // }
-        console.log(this.props.payload)
+        const result = store.dispatch({type: 'INITIALCARDS', payload: data});
+        
+        return {cardArr: result.payload}
+        
 
     }
     Check = () => {
-        console.log(this.props.initialCards, this.props.cards)
+        console.log(this.props.cardArr, this.props)
     }
     render () {
-        // console.log(this.props)
-        if (this.props.cards) {
+        if (this.props.cardArr) {
             return (
                 <div className="App">
                     <header className="App-header">
@@ -35,7 +28,7 @@ class Index extends React.Component  {
                     </header>
                     <div className="Grid">
                         {
-                            this.props.payload.map((card) => (
+                            this.props.cardArr.map((card) => (
                                 <Card key={card.id} />
                             ))
                         }
@@ -54,18 +47,5 @@ class Index extends React.Component  {
 
 };
 
-const mapDispatchToProps = (dispatch) => {
-    return {
-        initialCards: bindActionCreators(initialCards, dispatch),
-        addItem: bindActionCreators(addItem, dispatch)
-    }
-}
 
-const mapStateToProps = (state) => {
-    return {
-        cards: state.cards,
-    }
-}
-
-// export default connect(initStore, mapStateToProps, mapDispatchToProps)(Index);
 export default connect()(Index)
