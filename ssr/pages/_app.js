@@ -6,21 +6,9 @@ import App, {Container} from "next/app";
 import withRedux from "next-redux-wrapper";
 import { composeWithDevTools } from 'redux-devtools-extension';
 import thunkMiddleware from 'redux-thunk';
-import data from '../data/data.json'
-export const reducer = (state = startState, action) => {
-    switch (action.type) {
-        case 'INITIALCARDS':
-            return {
-                cards: action.cards,
-            }
-        case 'ADD':
-            return {
-                ...state,
-                cards: [...state.cards, action.item]
-            }
-        default: return state
-    }
-}
+// import data from '../data/data.json'
+import reducer from '../reducers'
+
 
 /**
 * @param {object} initialState
@@ -30,10 +18,8 @@ export const reducer = (state = startState, action) => {
 * @param {boolean} options.debug User-defined debug mode param
 * @param {string} options.storeKey This key will be used to preserve store in global namespace for safe HMR 
 */
-const startState = {
-    cards: []
-}
-const makeStore = (initialState = startState) => {
+
+const makeStore = (initialState) => {
     return createStore(reducer, initialState, composeWithDevTools(applyMiddleware(thunkMiddleware)));
 };
 
@@ -42,7 +28,6 @@ class MyApp extends App {
     static async getInitialProps({Component, ctx}) {
 
         // we can dispatch from here too
-        //  const pageProps = ctx.store.dispatch({type: 'INITIALCARDS', payload:data});
 
         const pageProps = Component.getInitialProps ? await Component.getInitialProps(ctx) : {};
         // console.log(ctx)

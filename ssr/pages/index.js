@@ -2,23 +2,27 @@ import React from 'react';
 import { bindActionCreators } from 'redux';
 import data from '../data/data.json'
 import {connect} from "react-redux";
-
+import {initialCardsAction, AddAction} from '../actions'
 import './index.css';
 import Card from './Card';
 
 class Index extends React.Component  {
     static async getInitialProps ({ store }) {
-        const result = store.dispatch({type: 'INITIALCARDS', payload: data});
+        store.dispatch(initialCardsAction())
         
-        return {cardArr: result.payload}
         
 
     }
+    componentDidMount = () => {
+      
+    }
+    
     Check = () => {
+        this.props.initialCardsAction();
         console.log(this.props.cardArr, this.props)
     }
     render () {
-        if (this.props.cardArr) {
+        if (this.props.cards) {
             return (
                 <div className="App">
                     <header className="App-header">
@@ -28,7 +32,7 @@ class Index extends React.Component  {
                     </header>
                     <div className="Grid">
                         {
-                            this.props.cardArr.map((card) => (
+                            this.props.cards.map((card) => (
                                 <Card key={card.id} />
                             ))
                         }
@@ -46,6 +50,12 @@ class Index extends React.Component  {
     }
 
 };
+const mapStateToProps = state => {
+    return {
+        cards: state.cards,
+        test: state.add
+    }
+}
 
 
-export default connect()(Index)
+export default connect(mapStateToProps, {})(Index)
