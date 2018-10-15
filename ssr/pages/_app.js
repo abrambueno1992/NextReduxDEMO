@@ -1,4 +1,3 @@
-// pages/_app.js
 import React from "react";
 import {createStore, applyMiddleware} from "redux";
 import {Provider} from "react-redux";
@@ -6,7 +5,6 @@ import App, {Container} from "next/app";
 import withRedux from "next-redux-wrapper";
 import { composeWithDevTools } from 'redux-devtools-extension';
 import thunkMiddleware from 'redux-thunk';
-// import data from '../data/data.json'
 import reducer from '../reducers'
 
 
@@ -30,7 +28,7 @@ class MyApp extends App {
         // we can dispatch from here too
 
         const pageProps = Component.getInitialProps ? await Component.getInitialProps(ctx) : {};
-        // console.log(ctx)
+        // console.log('props', pageProps)
         return {pageProps};
 
     }

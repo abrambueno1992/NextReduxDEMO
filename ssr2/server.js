@@ -24,3 +24,7 @@ app.prepare()
             console.log(`Ready on http://localhost:${port}`)
         })
     })
+    .catch((ex) => {
+        console.error(ex.stack)
+        process.exit(1)
+      })
